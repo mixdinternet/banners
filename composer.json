@@ -1,0 +1,24 @@
+{
+    "name": "mixdinternet/banners",
+    "description": "Pacote banners",
+    "keywords": ["laravel", "banners"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Irineu Martins Junior",
+            "email": "irineu@mixd.com.br",
+            "homepage": "http://www.mixd.com.br/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "laravel/framework": "5.1.*",
+        "mixdinternet/laravel-stapler-extra": "0.1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mixdinternet\\Banners\\": "src/"
+        }
+    }
+}
