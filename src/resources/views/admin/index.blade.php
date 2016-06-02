@@ -12,13 +12,13 @@
         @include('admin.partials.actions.btn.trash', ['route' => route('admin.banners.trash')])
     @endif
     @if($trash)
-        @include('admin.partials.actions.btn.list', ['route' => 'admin.banners.index'])
+        @include('admin.partials.actions.btn.list', ['route' => route('admin.banners.index')])
     @endif
 @endsection
 
 @section('btn-delete-all')
     @if((!checkRule('admin.banners.destroy')) && (!$trash))
-        @include('admin.partials.actions.btn.delete-all', ['route' => 'admin.banners.destroy'])
+        @include('admin.partials.actions.btn.delete-all', ['route' => route('admin.banners.destroy')])
     @endif
 @endsection
 
@@ -109,10 +109,10 @@
                             @include('admin.partials.actions.btn.edit', ['route' => route('admin.banners.edit', ['id' => $banner->id, 'place' => $banner->place])])
                         @endif
                         @if((!checkRule('admin.banners.destroy')) && (!$trash))
-                            @include('admin.partials.actions.btn.delete', ['route' => 'admin.banners.destroy', 'id' => $banner->id])
+                            @include('admin.partials.actions.btn.delete', ['route' => route('admin.banners.destroy'), 'id' => $banner->id])
                         @endif
                         @if($trash)
-                            @include('admin.partials.actions.btn.restore', ['route' => 'admin.banners.restore', 'id' => $banner->id])
+                            @include('admin.partials.actions.btn.restore', ['route' => route('admin.banners.restore', $banner->id)])
                         @endif
                     </td>
                 </tr>
