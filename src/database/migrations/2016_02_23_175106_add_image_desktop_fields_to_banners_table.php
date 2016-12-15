@@ -32,7 +32,7 @@ class AddImageDesktopFieldsToBannersTable extends Migration {
     {
         Schema::table('banners', function(Blueprint $table) {
             $table->dropColumn([
-                'image_desktop_file_name'
+                'image_desktop_file_name',
                 'image_desktop_file_size',
                 'image_desktop_content_type',
                 'image_desktop_updated_at'
