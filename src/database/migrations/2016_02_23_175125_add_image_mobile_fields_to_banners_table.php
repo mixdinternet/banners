@@ -31,12 +31,12 @@ class AddImageMobileFieldsToBannersTable extends Migration {
     public function down()
     {
         Schema::table('banners', function(Blueprint $table) {
-
-            $table->dropColumn('image_mobile_file_name');
-            $table->dropColumn('image_mobile_file_size');
-            $table->dropColumn('image_mobile_content_type');
-            $table->dropColumn('image_mobile_updated_at');
-
+            $table->dropColumn([
+                'image_mobile_file_name',
+                'image_mobile_file_size',
+                'image_mobile_content_type',
+                'image_mobile_updated_at',
+            ]);
         });
     }
 

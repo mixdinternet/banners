@@ -31,12 +31,12 @@ class AddImageTabletFieldsToBannersTable extends Migration {
     public function down()
     {
         Schema::table('banners', function(Blueprint $table) {
-
-            $table->dropColumn('image_tablet_file_name');
-            $table->dropColumn('image_tablet_file_size');
-            $table->dropColumn('image_tablet_content_type');
-            $table->dropColumn('image_tablet_updated_at');
-
+            $table->dropColumn([
+                'image_tablet_file_name',
+                'image_tablet_file_size',
+                'image_tablet_content_type',
+                'image_tablet_updated_at',
+            ]);
         });
     }
 
