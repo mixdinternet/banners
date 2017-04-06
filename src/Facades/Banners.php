@@ -6,11 +6,11 @@ use Mixdinternet\Banners\Banner;
 
 class Banners
 {
-    public function view($qtd = '3', $slug = null, $rand = false, $template = 'default')
+    public function view($qtd = '3', $place = null, $rand = false, $template = 'mixdinternet/banners::frontend.default')
     {
-        $slug = ($slug == null) ? key(config('mbanners.places')) : $slug;
+        $place = ($place == null) ? key(config('mbanners.places')) : $place;
 
-        $query = Banner::where('place', $slug)->active();
+        $query = Banner::where('place', $place)->active();
 
         if($rand == true){
             $query->rand();
@@ -20,8 +20,8 @@ class Banners
         }
 
         $view['banners'] = $query->take($qtd)->get();
-        $view['slug'] = $slug;
+        $view['slug'] = $place;
 
-        return view('mixdinternet/banners::frontend.' . $template, $view);
+        return view($template, $view);
     }
 }

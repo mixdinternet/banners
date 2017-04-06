@@ -1,4 +1,4 @@
-@extends('admin.index')
+@extends('mixdinternet/admix::index')
 
 @section('title')
     Listagem de {{ strtolower(config('mbanners.name', 'Banners')) }}
@@ -124,6 +124,14 @@
     @endif
 @endsection
 
+@section('pagination')
+    {!! $banners->appends(request()->except(['page']))->render() !!}
+@endsection
+
+@section('pagination-showing')
+    @include('admin.partials.pagination-showing', ['model' => $banners])
+@endsection
+
 @section('footer-scripts')
     <script>
         $(function () {
@@ -134,48 +142,40 @@
                     window.location.href = _this.attr('href').replace('%7Bplace%7D', '{{ key($places) }}');
                 @else
                     bootbox.dialog({
-                            title: "Qual a localização?",
-                            message: '<div class="row">  ' +
-                            '<div class="col-md-12"> ' +
-                            '<form class="form-horizontal" id="form-modal"> ' +
-                            '<div class="form-group"> ' +
-                            '<label class="col-md-4 control-label" for="choose"></label> ' +
-                            '<div class="col-md-4"> ' +
-                            '<select class="form-control" id="place" name="place">' +
-                            '<option value="" selected="selected">-</option>' +
-                            @foreach($places as $slug => $place)
-                                '<option value="{{ $slug }}">{{ $place['name'] }} ({{ $place['desktop']['width'] }}x{{ $place['desktop']['height'] }})</option>' +
-                            @endforeach
-                            '</select>' +
-                            '</div> </div>' +
-                            '</form> </div>  </div>',
-                            buttons: {
-                                success: {
-                                    label: "Continuar",
-                                    className: "btn-primary btn-flat",
-                                    callback: function () {
-                                        var place = $('#form-modal #place').val();
+                    title: "Qual a localização?",
+                    message: '<div class="row">  ' +
+                        '<div class="col-md-12"> ' +
+                        '<form class="form-horizontal" id="form-modal"> ' +
+                        '<div class="form-group"> ' +
+                        '<label class="col-md-4 control-label" for="choose"></label> ' +
+                        '<div class="col-md-4"> ' +
+                        '<select class="form-control" id="place" name="place">' +
+                        '<option value="" selected="selected">-</option>' +
+                        @foreach($places as $slug => $place)
+                            '<option value="{{ $slug }}">{{ $place['name'] }} ({{ $place['desktop']['width'] }}x{{ $place['desktop']['height'] }})</option>' +
+                        @endforeach
+                        '</select>' +
+                    '</div> </div>' +
+                    '</form> </div>  </div>',
+                    buttons: {
+                        success: {
+                            label: "Continuar",
+                            className: "btn-primary btn-flat",
+                            callback: function () {
+                                var place = $('#form-modal #place').val();
 
-                                        if (place == '') {
-                                            $('#form-modal .form-group').addClass('has-error');
-                                            return false;
-                                        }
-
-                                        window.location.href = _this.attr('href').replace('%7Bplace%7D', place);
-                                    }
+                                if (place == '') {
+                                    $('#form-modal .form-group').addClass('has-error');
+                                    return false;
                                 }
+
+                                window.location.href = _this.attr('href').replace('%7Bplace%7D', place);
                             }
-                        });
+                        }
+                    }
+                });
                 @endif
             });
         });
     </script>
-@endsection
-
-@section('pagination')
-    {!! $banners->appends(request()->except(['page']))->render() !!}
-@endsection
-
-@section('pagination-showing')
-    @include('admin.partials.pagination-showing', ['model' => $banners])
 @endsection

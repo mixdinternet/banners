@@ -12,7 +12,7 @@ class BannersAdminController extends AdminController
 {
     public function index(Request $request)
     {
-        session()->flash('backUrl', request()->fullUrl());
+        session()->put('backUrl', request()->fullUrl());
 
         $trash = ($request->segment(3) == 'trash') ? true : false;
 
@@ -49,7 +49,6 @@ class BannersAdminController extends AdminController
 
     public function create(Banner $banner)
     {
-        (session()->has('backUrl')) ? session()->keep('backUrl') : '';
         $view['banner'] = $banner;
         $view['place'] = request()->route('place');
 

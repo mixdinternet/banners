@@ -19,9 +19,9 @@ class BannersServiceProvider extends ServiceProvider
 
         $this->setRoutes();
 
-        $this->setRouterBind();
-
         $this->loadViews();
+
+        $this->loadMigrations();
 
         $this->publish();
     }
@@ -60,26 +60,19 @@ class BannersServiceProvider extends ServiceProvider
         if (!$this->app->routesAreCached()) {
             $this->app->router->group(['namespace' => 'Mixdinternet\Banners\Http\Controllers'],
                 function () {
-                    require __DIR__ . '/../Http/routes.php';
+                    require __DIR__ . '/../routes/web.php';
                 });
         }
-    }
-
-    protected function setRouterBind()
-    {
-        $this->app->router->bind('banners', function ($id) {
-            $banner = Banner::find($id);
-            if (!$banner) {
-                abort(404);
-            }
-
-            return $banner;
-        });
     }
 
     protected function loadViews()
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'mixdinternet/banners');
+    }
+
+    protected function loadMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 
     protected function publish()

@@ -28,24 +28,14 @@ class Banner extends Model implements StaplerableInterface
         'star' => 'boolean:Não|Sim',
     ];
 
-    protected $dates = ['deleted_at'
-        , 'published_at'
-        , 'until_then'
+    protected $dates = [
+        'deleted_at', 'published_at', 'until_then'
     ];
 
     protected $fillable = ['status'
-        , 'star'
-        , 'name'
-        , 'place'
-        , 'description'
-        , 'link'
-        , 'target'
-        , 'image_desktop'
-        , 'image_tablet'
-        , 'image_mobile'
-        , 'published_at'
-        , 'until_then'
-        , 'image'
+        , 'star', 'name', 'place', 'description', 'link'
+        , 'target', 'image_desktop', 'image_tablet', 'image_mobile'
+        , 'published_at', 'until_then', 'image'
     ];
 
     public function __construct(array $attributes = [])
