@@ -14,7 +14,7 @@ Adicione no seu composer.json
 
 ```js
   "require": {
-    "mixdinternet/banners": "0.1.*"
+    "mixdinternet/banners": "0.2.*"
   }
 ```
 
