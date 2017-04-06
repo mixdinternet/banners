@@ -33,8 +33,9 @@ class BannersServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/maudit.php', 'maudit.alias');
+        $this->loadConfigs();
 
+        /* load facade na model */
         $loader = \Illuminate\Foundation\AliasLoader::getInstance();
         $loader->alias('Banner', 'Mixdinternet\Banners\Facades\BannersFacade');
     }
@@ -73,6 +74,12 @@ class BannersServiceProvider extends ServiceProvider
     protected function loadMigrations()
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+    }
+
+    protected function loadConfigs()
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../config/maudit.php', 'maudit.alias');
+        $this->mergeConfigFrom(__DIR__ . '/../config/mbanners.php', 'mbanners');
     }
 
     protected function publish()

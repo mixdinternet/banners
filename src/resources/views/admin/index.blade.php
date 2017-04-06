@@ -6,19 +6,19 @@
 
 @section('btn-insert')
     @if((!checkRule('admin.banners.create')) && (!$trash))
-        @include('admin.partials.actions.btn.insert', ['route' => route('admin.banners.create')])
+        @include('mixdinternet/admix::partials.actions.btn.insert', ['route' => route('admin.banners.create', ['place' => ''])])
     @endif
     @if((!checkRule('admin.banners.trash')) && (!$trash))
-        @include('admin.partials.actions.btn.trash', ['route' => route('admin.banners.trash')])
+        @include('mixdinternet/admix::partials.actions.btn.trash', ['route' => route('admin.banners.trash')])
     @endif
     @if($trash)
-        @include('admin.partials.actions.btn.list', ['route' => route('admin.banners.index')])
+        @include('mixdinternet/admix::partials.actions.btn.list', ['route' => route('admin.banners.index')])
     @endif
 @endsection
 
 @section('btn-delete-all')
     @if((!checkRule('admin.banners.destroy')) && (!$trash))
-        @include('admin.partials.actions.btn.delete-all', ['route' => route('admin.banners.destroy')])
+        @include('mixdinternet/admix::partials.actions.btn.delete-all', ['route' => route('admin.banners.destroy')])
     @endif
 @endsection
 
@@ -93,7 +93,7 @@
                 <tr>
                     @if((!checkRule('admin.banners.destroy')) && (!$trash))
                         <td>
-                            @include('admin.partials.actions.checkbox', ['row' => $banner])
+                            @include('mixdinternet/admix::partials.actions.checkbox', ['row' => $banner])
                         </td>
                     @endif
                     <td>{{ $banner->id }}</td>
@@ -102,17 +102,17 @@
                     @endif
                     <td>{{ $banner->name }}</td>
                     <td>{{ Carbon::parse($banner->published_at)->format('d/m/Y H:i') }}</td>
-                    <td>@include('admin.partials.label.yes-no', ['yesNo' => $banner->star])</td>
-                    <td>@include('admin.partials.label.status', ['status' => $banner->status])</td>
+                    <td>@include('mixdinternet/admix::partials.label.yes-no', ['yesNo' => $banner->star])</td>
+                    <td>@include('mixdinternet/admix::partials.label.status', ['status' => $banner->status])</td>
                     <td>
                         @if((!checkRule('admin.banners.edit')) && (!$trash))
-                            @include('admin.partials.actions.btn.edit', ['route' => route('admin.banners.edit', ['id' => $banner->id, 'place' => $banner->place])])
+                            @include('mixdinternet/admix::partials.actions.btn.edit', ['route' => route('admin.banners.edit', ['id' => $banner->id, 'place' => $banner->place])])
                         @endif
                         @if((!checkRule('admin.banners.destroy')) && (!$trash))
-                            @include('admin.partials.actions.btn.delete', ['route' => route('admin.banners.destroy'), 'id' => $banner->id])
+                            @include('mixdinternet/admix::partials.actions.btn.delete', ['route' => route('admin.banners.destroy'), 'id' => $banner->id])
                         @endif
                         @if($trash)
-                            @include('admin.partials.actions.btn.restore', ['route' => route('admin.banners.restore', $banner->id)])
+                            @include('mixdinternet/admix::partials.actions.btn.restore', ['route' => route('admin.banners.restore', $banner->id)])
                         @endif
                     </td>
                 </tr>
@@ -120,7 +120,7 @@
             </tbody>
         </table>
     @else
-        @include('admin.partials.nothing-found')
+        @include('mixdinternet/admix::partials.nothing-found')
     @endif
 @endsection
 
@@ -129,7 +129,7 @@
 @endsection
 
 @section('pagination-showing')
-    @include('admin.partials.pagination-showing', ['model' => $banners])
+    @include('mixdinternet/admix::partials.pagination-showing', ['model' => $banners])
 @endsection
 
 @section('footer-scripts')
@@ -139,38 +139,41 @@
                 e.preventDefault();
                 var _this = $(this);
                 @if(count($places) == 1)
-                    window.location.href = _this.attr('href').replace('%7Bplace%7D', '{{ key($places) }}');
+                    window.location.href = _this.attr('href') + '/{{ key($places) }}';
                 @else
-                    bootbox.dialog({
+                    bootbox.prompt({
                     title: "Qual a localização?",
-                    message: '<div class="row">  ' +
-                        '<div class="col-md-12"> ' +
-                        '<form class="form-horizontal" id="form-modal"> ' +
-                        '<div class="form-group"> ' +
-                        '<label class="col-md-4 control-label" for="choose"></label> ' +
-                        '<div class="col-md-4"> ' +
-                        '<select class="form-control" id="place" name="place">' +
-                        '<option value="" selected="selected">-</option>' +
-                        @foreach($places as $slug => $place)
-                            '<option value="{{ $slug }}">{{ $place['name'] }} ({{ $place['desktop']['width'] }}x{{ $place['desktop']['height'] }})</option>' +
+                    inputType: 'select',
+                    inputOptions: [
+                        {
+                            text: '-',
+                            value: ''
+                        },
+                            @foreach($places as $slug => $place)
+                        {
+                            text: '{{ $place['name'] }} ({{ $place['desktop']['width'] }}x{{ $place['desktop']['height'] }})',
+                            value: '{{ $slug }}'
+                        },
                         @endforeach
-                        '</select>' +
-                    '</div> </div>' +
-                    '</form> </div>  </div>',
+                    ],
                     buttons: {
-                        success: {
-                            label: "Continuar",
-                            className: "btn-primary btn-flat",
-                            callback: function () {
-                                var place = $('#form-modal #place').val();
+                        cancel: {
+                            label: 'Cancelar',
+                            className: 'btn-default btn-flat'
+                        },
+                        confirm: {
+                            label: 'Continuar',
+                            className: 'btn-primary btn-flat'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result == '') {
+                            $('.bootbox-form').addClass('has-error');
+                            return false;
+                        }
 
-                                if (place == '') {
-                                    $('#form-modal .form-group').addClass('has-error');
-                                    return false;
-                                }
-
-                                window.location.href = _this.attr('href').replace('%7Bplace%7D', place);
-                            }
+                        if(result) {
+                            window.location.href = _this.attr('href') + '/' + result;
                         }
                     }
                 });

@@ -5,10 +5,10 @@ namespace Mixdinternet\Banners\Http\Controllers;
 use Illuminate\Http\Request;
 use Mixdinternet\Banners\Banner;
 use Caffeinated\Flash\Facades\Flash;
-use App\Http\Controllers\AdminController;
+use Mixdinternet\Admix\Http\Controllers\AdmixController;
 use Mixdinternet\Banners\Http\Requests\CreateEditBannersRequest;
 
-class BannersAdminController extends AdminController
+class BannersAdminController extends AdmixController
 {
     public function index(Request $request)
     {
