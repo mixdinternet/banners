@@ -40,6 +40,7 @@ class Banner extends Model implements StaplerableInterface
 
     public function __construct(array $attributes = [])
     {
+        /* TODO: trocar o stapler para remover do construtor */
         $place = last(explode('/', request()->server()['REQUEST_URI'])); #request()->route('place');
 
         $this->hasAttachedFile('image_desktop', [
@@ -141,11 +142,6 @@ class Banner extends Model implements StaplerableInterface
                 $query->where('until_then', '>=', Carbon::now())
                     ->orWhere('until_then');
             });
-    }
-
-    public function scopeRand($query)
-    {
-        $query->active()->orderByRaw("RAND()");
     }
 
     # revision

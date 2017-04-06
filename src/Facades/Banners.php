@@ -13,7 +13,7 @@ class Banners
         $query = Banner::where('place', $place)->active();
 
         if($rand == true){
-            $query->rand();
+            $query->inRandomOrder();
         }
         else {
             $query->sort();
