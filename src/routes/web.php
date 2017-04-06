@@ -5,7 +5,7 @@ Route::group(['middleware' => ['web'], 'prefix' => config('admin.url'), 'as' => 
         Route::get('banners/trash', ['uses' => 'BannersAdminController@index', 'as' => '.trash']);
         Route::post('banners/restore/{id}', ['uses' => 'BannersAdminController@restore', 'as' => '.restore']);
         Route::get('banners/create/{place}', ['uses' => 'BannersAdminController@create', 'as' => '.create']);
-        Route::get('banners/{banners}/edit/{place}', ['uses' => 'BannersAdminController@edit', 'as' => '.edit']);
+        Route::get('banners/{banner}/edit/{place}', ['uses' => 'BannersAdminController@edit', 'as' => '.edit']);
         Route::resource('banners', 'BannersAdminController', [
             'names' => [
                 'index' => '.index',
